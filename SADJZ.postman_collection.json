@@ -1,0 +1,107 @@
+{
+	"info": {
+		"_postman_id": "1e13056e-de10-4289-bc17-7a5c7bdcfb21",
+		"name": "SADJZ",
+		"description": "SADJZ Rest Api Calls",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				},
+				"description": "Adds User to database"
+			},
+			"response": []
+		},
+		{
+			"name": "Generate JWT",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5ab68b4c-be04-491c-a759-47627d557ac4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"afshawn\", \"password\": \"123456\"}\n"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"token"
+					]
+				},
+				"description": "Generates JWT Token"
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:5000/api/account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"account"
+					]
+				},
+				"description": "Fetches User from account"
+			},
+			"response": []
+		}
+	]
+}
