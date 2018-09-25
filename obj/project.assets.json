@@ -12647,11 +12647,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/afshawnlotfi/Documents/SADJZ/SADJZ.csproj",
+      "projectUniqueName": "/Users/afshawnlotfi/Documents/Backend/SADJZ.csproj",
       "projectName": "SADJZ",
-      "projectPath": "/Users/afshawnlotfi/Documents/SADJZ/SADJZ.csproj",
+      "projectPath": "/Users/afshawnlotfi/Documents/Backend/SADJZ.csproj",
       "packagesPath": "/Users/afshawnlotfi/.nuget/packages/",
-      "outputPath": "/Users/afshawnlotfi/Documents/SADJZ/obj/",
+      "outputPath": "/Users/afshawnlotfi/Documents/Backend/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"

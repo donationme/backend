@@ -2,7 +2,7 @@ namespace SADJZ.Models{
 
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel;
     using System.Globalization;
     using MongoDB.Bson;
     using Newtonsoft.Json;
@@ -16,7 +16,7 @@ namespace SADJZ.Models{
         [JsonProperty("email")]
         public string Email { get; set; }
 
-        [JsonProperty("type")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public UserType Type { get; set; }
 
 

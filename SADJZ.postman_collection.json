@@ -9,11 +9,41 @@
 		{
 			"name": "Add User",
 			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {},
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"auth\" : {\n\t\t\n\t\t\"username\" : \"afshawn@g.com\",\n\t\t\"password\" : \"123456\"\n\t},\n\t\"user\" : {\n\t\t\"name\" : \"Afshawn\",\n\t\t\"email\": \"afshawn@g.com\",\n\t\t\"type\": \"User\"\n\t}\n}"
+				},
 				"url": {
-					"raw": ""
+					"raw": "http://10.0.1.17:5000/api/account",
+					"protocol": "http",
+					"host": [
+						"10",
+						"0",
+						"1",
+						"17"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"account"
+					]
 				},
 				"description": "Adds User to database"
 			},
@@ -53,7 +83,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"username\": \"afshawn\", \"password\": \"123456\"}\n"
+					"raw": "{\"username\": \"afshawn1\", \"password\": \"123456\"}\n"
 				},
 				"url": {
 					"raw": "http://localhost:5000/api/token",
