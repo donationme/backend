@@ -75,8 +75,9 @@ namespace SADJZ.Controllers
                 {
                     bool addSuccess = await this.AccountDatabase.AddAccount(model);
                     if (addSuccess)
-                    {
-                        return Ok("Success");
+                    {   
+                        string[] noErrors = {};
+                        return Ok(noErrors);
                     }
                     else
                     {

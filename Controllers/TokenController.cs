@@ -68,7 +68,6 @@ namespace JWT.Controllers
      private async Task<AccountModel> Authenticate(LoginModel login)
      {
         AccountModel account = await this.AccountDatabase.GetAccount(login.Username);
-        System.Console.WriteLine(account.Auth.Password);
         if (account != null){
             if (login.Username == account.Auth.Username && login.Password == account.Auth.Password)
             {
