@@ -42,13 +42,18 @@ namespace SADJZ.Controllers
         public async Task<IActionResult> CreateNormalAccount([FromBody] AccountModel model)
         {
 
+
+            
             ClaimsPrincipal currentUser = HttpContext.User;
 
-            string typeString = currentUser.Claims.FirstOrDefault(c => c.Type == "Type").Value;
+            Claim typeString = currentUser.Claims.FirstOrDefault(c => c.Type == "Type");
             if (typeString != null){
-                UserType userType = Enum.Parse<UserType>(typeString);
-                if (userType == UserType.Admin){
-                    return await CreateAccount(model, true);
+            string claimValue = typeString.Value;
+                if (claimValue != null){
+                    UserType userType = Enum.Parse<UserType>(claimValue);
+                    if (userType == UserType.Admin){
+                        return await CreateAccount(model, true);
+                    }
                 }
             }
 
