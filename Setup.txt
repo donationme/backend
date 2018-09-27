@@ -1,0 +1,6 @@
+vagrant up
+vagrant halt
+vagrant up
+vagrant ssh
+cd Backend
+./launch.sh

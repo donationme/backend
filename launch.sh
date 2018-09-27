@@ -1,0 +1,4 @@
+sudo mongod &
+dotnet run
+
+

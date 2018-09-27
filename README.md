@@ -8,7 +8,7 @@ Things to Install
 
 
 1. [Postman](https://www.getpostman.com) Used sending HTTP calls to test server
-2. [MongoDB](https://docs.mongodb.com/manual/administration/install-community/) Used sending HTTP calls to test server
+2. [MongoDB](https://docs.mongodb.com/manual/administration/install-community/) Used as database
 3. [Dotnet CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x) Used to compile and run server
 4. [NoSqlClient](https://github.com/nosqlclient/nosqlclient/releases) Used to visualize MongoDB database (optional)
 
