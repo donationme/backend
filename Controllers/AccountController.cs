@@ -17,6 +17,7 @@ namespace SADJZ.Controllers
 
     public class AccountController : ControllerBase
     {
+        private bool privligedMode = false;
         private AccountDatabase AccountDatabase;
         private AccountValidator AccountValidator;
 
@@ -39,7 +40,7 @@ namespace SADJZ.Controllers
 
         // POST api/account
         [HttpPost]
-        public async Task<IActionResult> CreateNormalAccount([FromBody] AccountModel model)
+        public async Task<IActionResult> PostCreateAccount([FromBody] AccountModel model)
         {
 
 
@@ -71,7 +72,7 @@ namespace SADJZ.Controllers
 
             if (response.IsValid)
             {
-                if (model.User.Type == UserType.User || isAdmin)
+                if ((model.User.Type == UserType.User || privligedMode == false) || isAdmin)
                 {
                     bool addSuccess = await this.AccountDatabase.AddAccount(model);
                     if (addSuccess)

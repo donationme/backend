@@ -11,7 +11,7 @@ namespace SADJZ.Validation{
       RuleFor(x => x.User.Email).NotEmpty().WithMessage("Please specify an email");
       RuleFor(x => x.User.Email).EmailAddress().WithMessage("Not in email format");
       RuleFor(x => x.User.Name).NotEmpty().WithMessage("Please specify a name");
-      RuleFor(x => x.User.Type).NotEmpty().WithMessage("Please specify a user type");
+      RuleFor(x => x.User.Type).NotNull().WithMessage("Please specify a user type");
       RuleFor(x => x.User.Type).IsInEnum().WithMessage("Please specify valid user type");
 
     }
