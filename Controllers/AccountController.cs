@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SADJZ.Consts;
 using SADJZ.Database;
 using SADJZ.Models;
+using SADJZ.Services;
 using SADJZ.Validation;
 
 namespace SADJZ.Controllers
@@ -17,23 +19,27 @@ namespace SADJZ.Controllers
 
     public class AccountController : ControllerBase
     {
-        private bool privligedMode = false;
-        private AccountDatabase AccountDatabase;
+        private bool privligedMode = true;
+        private DatabaseInterfacer<AccountModel> DatabaseInterfacer;
         private AccountValidator AccountValidator;
 
         public AccountController()
         {
             this.AccountValidator = new AccountValidator();
-            this.AccountDatabase = new AccountDatabase();
+            this.DatabaseInterfacer = new DatabaseInterfacer<AccountModel>(DatabaseEndpoints.account);
         }
 
         [HttpGet, Authorize]
-        public async Task<UserModel> GetUser()
+        public async Task<ActionResult<UserModel>> GetUser()
         {
             ClaimsPrincipal currentUser = HttpContext.User;
-            AccountModel account = await this.AccountDatabase.GetAccount(currentUser.Claims.FirstOrDefault(c => c.Type == "Username").Value);
+            string username = currentUser.Claims.FirstOrDefault(c => c.Type == "Username").Value;
+            if (username != null){
+                AccountModel account = await this.DatabaseInterfacer.GetModel(Hasher.SHA256(username));
+                return account.User;
+            }
 
-            return account.User;
+            return Unauthorized();
         }
 
 
@@ -74,7 +80,8 @@ namespace SADJZ.Controllers
             {
                 if ((model.User.Type == UserType.User || privligedMode == false) || isAdmin)
                 {
-                    bool addSuccess = await this.AccountDatabase.AddAccount(model);
+                    model.Id = Hasher.SHA256(model.Auth.Username);
+                    bool addSuccess = await this.DatabaseInterfacer.AddModel(model);
                     if (addSuccess)
                     {   
                         string[] noErrors = {};

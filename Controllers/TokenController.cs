@@ -9,6 +9,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using SADJZ.Consts;
+using SADJZ.Services;
 
 namespace JWT.Controllers
 {
@@ -16,12 +18,12 @@ namespace JWT.Controllers
   public class TokenController : Controller
   {
     private IConfiguration _config;
-    private AccountDatabase AccountDatabase;
+    private DatabaseInterfacer<AccountModel> DatabaseInterfacer;
 
     public TokenController(IConfiguration config)
     {
       _config = config;
-      this.AccountDatabase = new AccountDatabase();
+      this.DatabaseInterfacer = new DatabaseInterfacer<AccountModel>(DatabaseEndpoints.account);
 
     }
 
@@ -67,7 +69,7 @@ namespace JWT.Controllers
 
      private async Task<AccountModel> Authenticate(LoginModel login)
      {
-        AccountModel account = await this.AccountDatabase.GetAccount(login.Username);
+        AccountModel account = await this.DatabaseInterfacer.GetModel(Hasher.SHA256(login.Username));
         if (account != null){
             if (login.Username == account.Auth.Username && login.Password == account.Auth.Password)
             {
