@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1e13056e-de10-4289-bc17-7a5c7bdcfb21",
+		"_postman_id": "0dfca8ee-8991-4f27-8548-c238719d3319",
 		"name": "SADJZ",
 		"description": "SADJZ Rest Api Calls",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -50,6 +50,49 @@
 			"response": []
 		},
 		{
+			"name": "Get Locations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"auth\" : {\n\t\t\n\t\t\"username\" : \"afshawn@g.com\",\n\t\t\"password\" : \"123456\"\n\t},\n\t\"user\" : {\n\t\t\"name\" : \"Afshawn\",\n\t\t\"email\": \"afshawn@g.com\",\n\t\t\"type\": \"User\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://10.0.1.17:5000/api/location",
+					"protocol": "http",
+					"host": [
+						"10",
+						"0",
+						"1",
+						"17"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"location"
+					]
+				},
+				"description": "Adds User to database"
+			},
+			"response": []
+		},
+		{
 			"name": "Generate JWT",
 			"event": [
 				{
@@ -83,13 +126,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"username\": \"afshawn1\", \"password\": \"123456\"}\n"
+					"raw": "{\"username\": \"afshawn@g.com\", \"password\": \"123456\"}\n"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/token",
+					"raw": "http://10.0.1.17:5000/api/token",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"10",
+						"0",
+						"1",
+						"17"
 					],
 					"port": "5000",
 					"path": [
@@ -116,12 +162,18 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "http://localhost:5000/api/account",
+					"raw": "http://10.0.1.17:5000/api/account",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"10",
+						"0",
+						"1",
+						"17"
 					],
 					"port": "5000",
 					"path": [
