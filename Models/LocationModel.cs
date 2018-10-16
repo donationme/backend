@@ -9,52 +9,61 @@ namespace SADJZ.Models{
     using Newtonsoft.Json.Converters;
     using static JWT.Controllers.TokenController;
 
-    public sealed class LocationModel:DatabaseEntry
+
+    public sealed class LocationModel:DatabaseEntry{
+
+        [JsonProperty("locations")]
+        public List<LocationListObject> Locations { get; set; }
+
+    }
+
+
+    public sealed class LocationListObject
     {
 
-        [JsonProperty("Key")]
+        [JsonProperty("key")]
         public int Key { get; set; }
 
-        [JsonProperty("Name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("Latitude")]
+        [JsonProperty("latitude")]
         public double Latitude { get; set; }
 
-        [JsonProperty("Longitude")]
+        [JsonProperty("longitude")]
         public double Longitude { get; set; }
 
-        [JsonProperty("Street")]
+        [JsonProperty("street")]
         public string Street { get; set; }
 
-        [JsonProperty("City")]
+        [JsonProperty("city")]
         public string City { get; set; }
 
-        [JsonProperty("State")]
+        [JsonProperty("state")]
         public string State { get; set; }
 
-        [JsonProperty("Zip")]
+        [JsonProperty("zip")]
         public int Zip { get; set; }
 
-        [JsonProperty("Address")]
+        [JsonProperty("address")]
         public string Address { get{return this.Street + ", " + this.City + ", " + this.State + " " + this.Zip; } set{ this.Address = value;} }
 
-        [JsonProperty("Type")]
+        [JsonProperty("type")]
         public string Type { get; set; }
 
 
-        [JsonProperty("Phone")]
+        [JsonProperty("phone")]
         public string Phone { get; set; }
 
 
-        [JsonProperty("Website")]
+        [JsonProperty("website")]
         public string Website { get; set; }
 
 
-        public static LocationModel FromCsv(string csvLine)
+        public static LocationListObject FromCsv(string csvLine)
         {
             string[] values = csvLine.Split(',');
-            LocationModel location = new LocationModel();
+            LocationListObject location = new LocationListObject();
             location.Key = Convert.ToInt16(values[0]);
             location.Name = Convert.ToString(values[1]);
             location.Latitude = Convert.ToDouble(values[2]);

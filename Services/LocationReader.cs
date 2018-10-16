@@ -9,11 +9,11 @@ namespace SADJZ.Services{
 
     {
 
-        public List<LocationModel> ReadCSV(string fPath){
+        public List<LocationListObject> ReadCSV(string fPath){
 
-            List<LocationModel> values = File.ReadAllLines(fPath)
+            List<LocationListObject> values = File.ReadAllLines(fPath)
                                            .Skip(1)
-                                           .Select(v => LocationModel.FromCsv(v))
+                                           .Select(v => LocationListObject.FromCsv(v))
                                            .ToList();
             return values;
         }

@@ -23,10 +23,10 @@ namespace SADJZ.Controllers
         }
 
         [HttpGet, Authorize]
-        public List<LocationModel> GetLocations()
+        public LocationModel GetLocations()
         {
             LocationReader locationReader = new LocationReader();
-            return locationReader.ReadCSV("Assets/LocationData.csv");
+            return new LocationModel{Locations = locationReader.ReadCSV("Assets/LocationData.csv")}; 
         }
 
     }
