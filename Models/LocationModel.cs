@@ -7,18 +7,39 @@ namespace SADJZ.Models{
     using MongoDB.Bson;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using SADJZ.Services;
     using static JWT.Controllers.TokenController;
 
 
     public sealed class LocationModel:DatabaseEntry{
 
-        [JsonProperty("locations")]
-        public List<LocationListObject> Locations { get; set; }
+        [JsonProperty("donationCenters")]
+        public List<DonationCenterModel> DonationCenters { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("id")]
+        public override string Id { get; set; }
+
+
 
     }
 
 
-    public sealed class LocationListObject
+    public sealed class ExportCSVLocationModel{
+
+        [JsonProperty("csv")]
+        public string CSV { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        public LocationModel Location { get{return new LocationModel{DonationCenters = LocationReader.ReadCSV(this.CSV), Name = this.Name };}}
+
+    }
+
+    public sealed class DonationCenterModel
     {
 
         [JsonProperty("key")]
@@ -46,11 +67,10 @@ namespace SADJZ.Models{
         public int Zip { get; set; }
 
         [JsonProperty("address")]
-        public string Address { get{return this.Street + ", " + this.City + ", " + this.State + " " + this.Zip; } set{ this.Address = value;} }
+        public string Address {get;set;}
 
         [JsonProperty("type")]
         public string Type { get; set; }
-
 
         [JsonProperty("phone")]
         public string Phone { get; set; }
@@ -59,11 +79,13 @@ namespace SADJZ.Models{
         [JsonProperty("website")]
         public string Website { get; set; }
 
+        [JsonProperty("donationCenters")]
+        public List<DonationItemModel> DonationItems { get; set; }
 
-        public static LocationListObject FromCsv(string csvLine)
+        public static DonationCenterModel FromCsv(string csvLine)
         {
             string[] values = csvLine.Split(',');
-            LocationListObject location = new LocationListObject();
+            DonationCenterModel location = new DonationCenterModel();
             location.Key = Convert.ToInt16(values[0]);
             location.Name = Convert.ToString(values[1]);
             location.Latitude = Convert.ToDouble(values[2]);
@@ -75,6 +97,8 @@ namespace SADJZ.Models{
             location.Type = Convert.ToString(values[8]);
             location.Phone = Convert.ToString(values[9]);
             location.Website = Convert.ToString(values[10]);
+            location.Address = location.Street + ", " + location.City + ", " + location.State + " " + location.Zip;
+            location.DonationItems = new List<DonationItemModel>();
             return location;
         }
 

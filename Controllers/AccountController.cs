@@ -19,7 +19,7 @@ namespace SADJZ.Controllers
 
     public class AccountController : ControllerBase
     {
-        private bool privligedMode = true;
+        private bool privligedMode = false;
         private DatabaseInterfacer<AccountModel> DatabaseInterfacer;
         private AccountValidator AccountValidator;
 
@@ -42,8 +42,6 @@ namespace SADJZ.Controllers
             return Unauthorized();
         }
 
-
-
         // POST api/account
         [HttpPost]
         public async Task<IActionResult> PostCreateAccount([FromBody] AccountModel model)
@@ -53,15 +51,10 @@ namespace SADJZ.Controllers
             
             ClaimsPrincipal currentUser = HttpContext.User;
 
-            Claim typeString = currentUser.Claims.FirstOrDefault(c => c.Type == "Type");
-            if (typeString != null){
-            string claimValue = typeString.Value;
-                if (claimValue != null){
-                    UserType userType = Enum.Parse<UserType>(claimValue);
-                    if (userType == UserType.Admin){
-                        return await CreateAccount(model, true);
-                    }
-                }
+            UserType userType =  TypeFinder.TypeFromClaim(currentUser);
+
+            if (userType == UserType.Admin){
+                return await CreateAccount(model, true);
             }
 
 

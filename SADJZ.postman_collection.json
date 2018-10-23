@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0dfca8ee-8991-4f27-8548-c238719d3319",
+		"_postman_id": "0dcf2c12-f789-4cc4-af68-d3bc089525b5",
 		"name": "SADJZ",
 		"description": "SADJZ Rest Api Calls",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -71,7 +71,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"auth\" : {\n\t\t\n\t\t\"username\" : \"afshawn@g.com\",\n\t\t\"password\" : \"123456\"\n\t},\n\t\"user\" : {\n\t\t\"name\" : \"Afshawn\",\n\t\t\"email\": \"afshawn@g.com\",\n\t\t\"type\": \"User\"\n\t}\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "http://10.0.1.17:5000/api/location",
@@ -89,6 +89,221 @@
 					]
 				},
 				"description": "Adds User to database"
+			},
+			"response": []
+		},
+		{
+			"name": "Post Locations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBZnNoYXduIiwiVXNlcm5hbWUiOiJhZnNoYXduMUBnLmNvbSIsIlR5cGUiOiJBZG1pbiIsImVtYWlsIjoiYWZzaGF3bjFAZy5jb20iLCJqdGkiOiJhZTE4MGM5Yi1mMDE0LTRjYWMtYTQ4ZC02MjEyOTQ1NDFiZDQiLCJleHAiOjE1NDAzMjU1MDAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NjM5MzkvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo2MzkzOS8ifQ.KTyC7ToNd4GdObkgGhquCxL5BGjkE2_b-gDR69efG7E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"name\" : \"atlanta\",\n\t\"csv\" : \"Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website\n1,AFD Station 4,33.75416,-84.37742,309 EDGEWOOD AVE SE,Atlanta,GA,30332,Drop Off,(404) 555 - 3456,www.afd04.atl.ga\n2,BOYS & GILRS CLUB W.W. WOOLFOLK,33.73182,-84.43971,1642 RICHLAND RD,Atlanta,GA,30332,Store,(404) 555 - 1234,www.bgc.wool.ga\n3,PATHWAY UPPER ROOM CHRISTIAN MINISTRIES,33.70866,-84.41853,1683 SYLVAN RD,Atlanta,GA,30332,Warehouse,(404) 555 - 5432,www.pathways.org\n4,PAVILION OF HOPE INC,33.80129,-84.25537,3558 EAST PONCE DE LEON AVE,SCOTTDALE,GA,30079,Warehouse,(404) 555 - 8765,www.pavhope.org\n5,D&D CONVENIENCE STORE,33.71747,-84.2521,2426 COLUMBIA DRIVE,DECATUR,GA,30034,Drop Off,(404) 555 - 9876,www.ddconv.com\n6,KEEP NORTH FULTON BEAUTIFUL,33.96921,-84.3688,470 MORGAN FALLS RD,Sandy Springs,GA,30302,Store,(770) 555 - 7321,www.knfb.org\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://10.0.1.17:5000/api/location",
+					"protocol": "http",
+					"host": [
+						"10",
+						"0",
+						"1",
+						"17"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"location"
+					]
+				},
+				"description": "Adds User to database"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Location",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBZnNoYXduIiwiVXNlcm5hbWUiOiJhZnNoYXduMUBnLmNvbSIsIlR5cGUiOiJBZG1pbiIsImVtYWlsIjoiYWZzaGF3bjFAZy5jb20iLCJqdGkiOiJhZTE4MGM5Yi1mMDE0LTRjYWMtYTQ4ZC02MjEyOTQ1NDFiZDQiLCJleHAiOjE1NDAzMjU1MDAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NjM5MzkvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo2MzkzOS8ifQ.KTyC7ToNd4GdObkgGhquCxL5BGjkE2_b-gDR69efG7E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"name\" : \"Atlanta\",\n\t\"csv\" : \"Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website\n1,AFD Station 4,33.75416,-84.37742,309 EDGEWOOD AVE SE,Atlanta,GA,30332,Drop Off,(404) 555 - 3456,www.afd04.atl.ga\n2,BOYS & GILRS CLUB W.W. WOOLFOLK,33.73182,-84.43971,1642 RICHLAND RD,Atlanta,GA,30332,Store,(404) 555 - 1234,www.bgc.wool.ga\n3,PATHWAY UPPER ROOM CHRISTIAN MINISTRIES,33.70866,-84.41853,1683 SYLVAN RD,Atlanta,GA,30332,Warehouse,(404) 555 - 5432,www.pathways.org\n4,PAVILION OF HOPE INC,33.80129,-84.25537,3558 EAST PONCE DE LEON AVE,SCOTTDALE,GA,30079,Warehouse,(404) 555 - 8765,www.pavhope.org\n5,D&D CONVENIENCE STORE,33.71747,-84.2521,2426 COLUMBIA DRIVE,DECATUR,GA,30034,Drop Off,(404) 555 - 9876,www.ddconv.com\n6,KEEP NORTH FULTON BEAUTIFUL,33.96921,-84.3688,470 MORGAN FALLS RD,Sandy Springs,GA,30302,Store,(770) 555 - 7321,www.knfb.org\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://10.0.1.17:5000/api/location",
+					"protocol": "http",
+					"host": [
+						"10",
+						"0",
+						"1",
+						"17"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"location"
+					]
+				},
+				"description": "Adds Location to database"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Donation Item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBZnNoYXduIiwiVXNlcm5hbWUiOiJhZnNoYXduMUBnLmNvbSIsIlR5cGUiOiJBZG1pbiIsImVtYWlsIjoiYWZzaGF3bjFAZy5jb20iLCJqdGkiOiJhZTE4MGM5Yi1mMDE0LTRjYWMtYTQ4ZC02MjEyOTQ1NDFiZDQiLCJleHAiOjE1NDAzMjU1MDAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NjM5MzkvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo2MzkzOS8ifQ.KTyC7ToNd4GdObkgGhquCxL5BGjkE2_b-gDR69efG7E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"name\" : \"Atlanta\",\n\t\"csv\" : \"Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website\n1,AFD Station 4,33.75416,-84.37742,309 EDGEWOOD AVE SE,Atlanta,GA,30332,Drop Off,(404) 555 - 3456,www.afd04.atl.ga\n2,BOYS & GILRS CLUB W.W. WOOLFOLK,33.73182,-84.43971,1642 RICHLAND RD,Atlanta,GA,30332,Store,(404) 555 - 1234,www.bgc.wool.ga\n3,PATHWAY UPPER ROOM CHRISTIAN MINISTRIES,33.70866,-84.41853,1683 SYLVAN RD,Atlanta,GA,30332,Warehouse,(404) 555 - 5432,www.pathways.org\n4,PAVILION OF HOPE INC,33.80129,-84.25537,3558 EAST PONCE DE LEON AVE,SCOTTDALE,GA,30079,Warehouse,(404) 555 - 8765,www.pavhope.org\n5,D&D CONVENIENCE STORE,33.71747,-84.2521,2426 COLUMBIA DRIVE,DECATUR,GA,30034,Drop Off,(404) 555 - 9876,www.ddconv.com\n6,KEEP NORTH FULTON BEAUTIFUL,33.96921,-84.3688,470 MORGAN FALLS RD,Sandy Springs,GA,30302,Store,(770) 555 - 7321,www.knfb.org\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://10.0.1.17:5000/api/location",
+					"protocol": "http",
+					"host": [
+						"10",
+						"0",
+						"1",
+						"17"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"location"
+					]
+				},
+				"description": "Adds Donation Item to Location"
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Donation Item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBZnNoYXduIiwiVXNlcm5hbWUiOiJhZnNoYXduMUBnLmNvbSIsIlR5cGUiOiJBZG1pbiIsImVtYWlsIjoiYWZzaGF3bjFAZy5jb20iLCJqdGkiOiJhZTE4MGM5Yi1mMDE0LTRjYWMtYTQ4ZC02MjEyOTQ1NDFiZDQiLCJleHAiOjE1NDAzMjU1MDAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NjM5MzkvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo2MzkzOS8ifQ.KTyC7ToNd4GdObkgGhquCxL5BGjkE2_b-gDR69efG7E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"name\" : \"Atlanta\",\n\t\"csv\" : \"Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website\n1,AFD Station 4,33.75416,-84.37742,309 EDGEWOOD AVE SE,Atlanta,GA,30332,Drop Off,(404) 555 - 3456,www.afd04.atl.ga\n2,BOYS & GILRS CLUB W.W. WOOLFOLK,33.73182,-84.43971,1642 RICHLAND RD,Atlanta,GA,30332,Store,(404) 555 - 1234,www.bgc.wool.ga\n3,PATHWAY UPPER ROOM CHRISTIAN MINISTRIES,33.70866,-84.41853,1683 SYLVAN RD,Atlanta,GA,30332,Warehouse,(404) 555 - 5432,www.pathways.org\n4,PAVILION OF HOPE INC,33.80129,-84.25537,3558 EAST PONCE DE LEON AVE,SCOTTDALE,GA,30079,Warehouse,(404) 555 - 8765,www.pavhope.org\n5,D&D CONVENIENCE STORE,33.71747,-84.2521,2426 COLUMBIA DRIVE,DECATUR,GA,30034,Drop Off,(404) 555 - 9876,www.ddconv.com\n6,KEEP NORTH FULTON BEAUTIFUL,33.96921,-84.3688,470 MORGAN FALLS RD,Sandy Springs,GA,30302,Store,(770) 555 - 7321,www.knfb.org\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://10.0.1.17:5000/api/location",
+					"protocol": "http",
+					"host": [
+						"10",
+						"0",
+						"1",
+						"17"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"location"
+					]
+				},
+				"description": "Adds Donation Item to Location"
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Donation Item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBZnNoYXduIiwiVXNlcm5hbWUiOiJhZnNoYXduMUBnLmNvbSIsIlR5cGUiOiJBZG1pbiIsImVtYWlsIjoiYWZzaGF3bjFAZy5jb20iLCJqdGkiOiJhZTE4MGM5Yi1mMDE0LTRjYWMtYTQ4ZC02MjEyOTQ1NDFiZDQiLCJleHAiOjE1NDAzMjU1MDAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NjM5MzkvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo2MzkzOS8ifQ.KTyC7ToNd4GdObkgGhquCxL5BGjkE2_b-gDR69efG7E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"name\" : \"Atlanta\",\n\t\"csv\" : \"Key,Name,Latitude,Longitude,Street Address,City,State,Zip,Type,Phone,Website\n1,AFD Station 4,33.75416,-84.37742,309 EDGEWOOD AVE SE,Atlanta,GA,30332,Drop Off,(404) 555 - 3456,www.afd04.atl.ga\n2,BOYS & GILRS CLUB W.W. WOOLFOLK,33.73182,-84.43971,1642 RICHLAND RD,Atlanta,GA,30332,Store,(404) 555 - 1234,www.bgc.wool.ga\n3,PATHWAY UPPER ROOM CHRISTIAN MINISTRIES,33.70866,-84.41853,1683 SYLVAN RD,Atlanta,GA,30332,Warehouse,(404) 555 - 5432,www.pathways.org\n4,PAVILION OF HOPE INC,33.80129,-84.25537,3558 EAST PONCE DE LEON AVE,SCOTTDALE,GA,30079,Warehouse,(404) 555 - 8765,www.pavhope.org\n5,D&D CONVENIENCE STORE,33.71747,-84.2521,2426 COLUMBIA DRIVE,DECATUR,GA,30034,Drop Off,(404) 555 - 9876,www.ddconv.com\n6,KEEP NORTH FULTON BEAUTIFUL,33.96921,-84.3688,470 MORGAN FALLS RD,Sandy Springs,GA,30302,Store,(770) 555 - 7321,www.knfb.org\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://10.0.1.17:5000/api/location",
+					"protocol": "http",
+					"host": [
+						"10",
+						"0",
+						"1",
+						"17"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"location"
+					]
+				},
+				"description": "Edits Donation Item to Location"
 			},
 			"response": []
 		},

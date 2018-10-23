@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,11 +10,12 @@ namespace SADJZ.Services{
 
     {
 
-        public List<LocationListObject> ReadCSV(string fPath){
+        public  static List<DonationCenterModel> ReadCSV(string csv){
+            string[] splitted = csv.Split(new string[] {System.Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
 
-            List<LocationListObject> values = File.ReadAllLines(fPath)
+            List<DonationCenterModel> values = splitted
                                            .Skip(1)
-                                           .Select(v => LocationListObject.FromCsv(v))
+                                           .Select(v => DonationCenterModel.FromCsv(v))
                                            .ToList();
             return values;
         }
@@ -24,3 +26,11 @@ namespace SADJZ.Services{
 
 
 }
+
+
+
+
+
+
+
+
