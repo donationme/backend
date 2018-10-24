@@ -10,6 +10,7 @@ using SADJZ.Consts;
 using SADJZ.Validation;
 using FluentValidation.Results;
 using System.Security.Claims;
+using System;
 
 namespace SADJZ.Controllers
 {
@@ -31,25 +32,29 @@ namespace SADJZ.Controllers
         public async Task<LocationModel> GetLocations(string locationName)
         {
             LocationReader locationReader = new LocationReader();
-            return await this.DatabaseInterfacer.GetModel(Hasher.SHA256(locationName.ToLower()));
+            LocationModel locations = await this.DatabaseInterfacer.GetModel(Hasher.SHA256(locationName.ToLower()));
+            return locations;
 
         }
 
         [HttpPost("{locationName}"), Authorize]
-        public async Task<ActionResult<bool>> AddDonationCenter(string locationName, DonationCenterModel donationCenter)
+        public async Task<ActionResult<bool>> AddDonationCenter(string locationName, LocationCollectionObject locationCollectionObject)
         {
             var donationCenterValidator = new DonationCenterValidator();
             string id = Hasher.SHA256(locationName.ToLower());
-            LocationModel location = await this.DatabaseInterfacer.GetModel(id);
+            LocationModel locationModel = await this.DatabaseInterfacer.GetModel(id);
 
-            ValidationResult response = donationCenterValidator.Validate(donationCenter);
+            ValidationResult response = donationCenterValidator.Validate(locationCollectionObject);
+
+            locationModel.Id =  Hasher.SHA256(locationModel.Name.ToLower());
+
 
             if (response.IsValid){
-                if (location == null){
-                    List<DonationCenterModel> donationCenters = new List<DonationCenterModel>();
-                    donationCenters.Add(donationCenter);
-                    location = new LocationModel{Name = locationName, DonationCenters = donationCenters, Id = id};
-                    bool isValid = await this.DatabaseInterfacer.AddModel(location);
+                if (locationModel == null){
+                    List<LocationCollectionObject> donationCenters = new List<LocationCollectionObject>();
+                    donationCenters.Add(locationCollectionObject);
+                    locationModel = new LocationModel{Name = locationName, Locations = donationCenters, Id = id};
+                    bool isValid = await this.DatabaseInterfacer.AddModel(locationModel);
                     if (isValid){
                         string[] noErrors = {};
                         return Ok(noErrors);
@@ -58,9 +63,9 @@ namespace SADJZ.Controllers
                         return Conflict(validationFailure);
                     }
                 }else{
-                    location.DonationCenters.Add(donationCenter);
+                    locationModel.Locations.Add(locationCollectionObject);
                     LocationReader locationReader = new LocationReader();
-                    if (this.DatabaseInterfacer.UpdateModel<List<DonationCenterModel>>(id, c => c.DonationCenters,location.DonationCenters)){
+                    if (this.DatabaseInterfacer.UpdateModel<List<LocationCollectionObject>>(id, c => c.Locations,locationModel.Locations)){
                         string[] noErrors = {};
                         return Ok(noErrors);
                     }else{
@@ -93,7 +98,8 @@ namespace SADJZ.Controllers
             if (userType == UserType.Admin){
 
                 LocationModel locationModel = csvModel.Location;
-                locationModel.Id = Hasher.SHA256(locationModel.Name.ToLower());
+                locationModel.Id =  Hasher.SHA256(csvModel.Name.ToLower());
+
                 LocationValidator locValidator = new LocationValidator();
                 ValidationResult response = locValidator.Validate(locationModel);
                 if (response.IsValid){

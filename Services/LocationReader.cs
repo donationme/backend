@@ -10,12 +10,12 @@ namespace SADJZ.Services{
 
     {
 
-        public  static List<DonationCenterModel> ReadCSV(string csv){
+        public  static List<LocationCollectionObject> ReadCSV(string csv){
             string[] splitted = csv.Split(new string[] {System.Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
 
-            List<DonationCenterModel> values = splitted
+            List<LocationCollectionObject> values = splitted
                                            .Skip(1)
-                                           .Select(v => DonationCenterModel.FromCsv(v))
+                                           .Select(v => LocationCollectionObject.FromCsv(v))
                                            .ToList();
             return values;
         }

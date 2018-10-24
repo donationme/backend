@@ -11,18 +11,21 @@ namespace SADJZ.Models{
     public sealed class DonationItemModel: DatabaseEntry
     {
 
+        [JsonProperty("locationid")]
+        public string LocationId { get; set; }
+
         [JsonProperty("id")]
         public override string Id { get; set; }
 
-        [JsonProperty("timeDonated")]
-        public DateTime TimeDonated { get; set; }
+        [JsonProperty("time")]
+        public DateTime Time { get; set; }
 
-        [JsonProperty("shortDescription")]
-        public string ShortDescription { get; set; }
+        [JsonProperty("description")]
+        public string Description { get; set; }
 
 
-        [JsonProperty("title")]
-        public string Title { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
 
         [JsonProperty("quantity")]
