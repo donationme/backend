@@ -19,42 +19,42 @@ namespace SADJZ.Controllers
 
     public class LocationController : ControllerBase
     {
-        private DatabaseInterfacer<LocationModel> DatabaseInterfacer;
+        private DatabaseInterfacer<RegionModel> DatabaseInterfacer;
 
 
         public LocationController()
         {
-            this.DatabaseInterfacer = new DatabaseInterfacer<LocationModel>(DatabaseEndpoints.location);
+            this.DatabaseInterfacer = new DatabaseInterfacer<RegionModel>(DatabaseEndpoints.region);
 
         }
 
-        [HttpGet("{locationName}"), Authorize]
-        public async Task<LocationModel> GetLocations(string locationName)
+        [HttpGet("{regionName}"), Authorize]
+        public async Task<RegionModel> GetLocations(string regionName)
         {
-            LocationReader locationReader = new LocationReader();
-            LocationModel locations = await this.DatabaseInterfacer.GetModel(Hasher.SHA256(locationName.ToLower()));
+            RegionReader locationReader = new RegionReader();
+            RegionModel locations = await this.DatabaseInterfacer.GetModel(Hasher.SHA256(regionName.ToLower()));
             return locations;
 
         }
 
-        [HttpPost("{locationName}"), Authorize]
-        public async Task<ActionResult<bool>> AddDonationCenter(string locationName, LocationCollectionObject locationCollectionObject)
+        [HttpPost("{regionName}"), Authorize]
+        public async Task<ActionResult<bool>> AddDonationCenter(string regionName, LocationModel location)
         {
             var donationCenterValidator = new DonationCenterValidator();
-            string id = Hasher.SHA256(locationName.ToLower());
-            LocationModel locationModel = await this.DatabaseInterfacer.GetModel(id);
+            string regionId = Hasher.SHA256(regionName.ToLower());
+            RegionModel regionModel = await this.DatabaseInterfacer.GetModel(regionId);
 
-            ValidationResult response = donationCenterValidator.Validate(locationCollectionObject);
+            ValidationResult validationResp = donationCenterValidator.Validate(location);
 
-            locationModel.Id =  Hasher.SHA256(locationModel.Name.ToLower());
+            regionModel.Id =  Hasher.SHA256(regionModel.Name.ToLower());
 
 
-            if (response.IsValid){
-                if (locationModel == null){
-                    List<LocationCollectionObject> donationCenters = new List<LocationCollectionObject>();
-                    donationCenters.Add(locationCollectionObject);
-                    locationModel = new LocationModel{Name = locationName, Locations = donationCenters, Id = id};
-                    bool isValid = await this.DatabaseInterfacer.AddModel(locationModel);
+            if (validationResp.IsValid){
+                if (regionModel == null){
+                    List<LocationModel> locations = new List<LocationModel>();
+                    locations.Add(location);
+                    regionModel = new RegionModel{Name = regionName, Locations = locations, Id = regionId};
+                    bool isValid = await this.DatabaseInterfacer.AddModel(regionModel);
                     if (isValid){
                         string[] noErrors = {};
                         return Ok(noErrors);
@@ -63,9 +63,9 @@ namespace SADJZ.Controllers
                         return Conflict(validationFailure);
                     }
                 }else{
-                    locationModel.Locations.Add(locationCollectionObject);
-                    LocationReader locationReader = new LocationReader();
-                    if (this.DatabaseInterfacer.UpdateModel<List<LocationCollectionObject>>(id, c => c.Locations,locationModel.Locations)){
+                    regionModel.Locations.Add(location);
+                    RegionReader regionReader = new RegionReader();
+                    if (this.DatabaseInterfacer.UpdateModel<List<LocationModel>>(regionId, c => c.Locations,regionModel.Locations)){
                         string[] noErrors = {};
                         return Ok(noErrors);
                     }else{
@@ -75,7 +75,7 @@ namespace SADJZ.Controllers
 
                 }
             }else{
-                return Conflict(response.Errors);
+                return Conflict(validationResp.Errors);
             }
                 
             
@@ -88,7 +88,7 @@ namespace SADJZ.Controllers
 
 
         [HttpPost, Authorize]
-        public async Task<ActionResult<UserModel>> AddLocationFromCSV(ExportCSVLocationModel csvModel)
+        public async Task<ActionResult<UserModel>> AddLocationFromCSV(ExportCSVRegionModel csvModel)
         {
 
             ClaimsPrincipal currentUser = HttpContext.User;
@@ -97,13 +97,13 @@ namespace SADJZ.Controllers
 
             if (userType == UserType.Admin){
 
-                LocationModel locationModel = csvModel.Location;
-                locationModel.Id =  Hasher.SHA256(csvModel.Name.ToLower());
+                RegionModel region = csvModel.Location;
+                region.Id =  Hasher.SHA256(csvModel.Name.ToLower());
 
-                LocationValidator locValidator = new LocationValidator();
-                ValidationResult response = locValidator.Validate(locationModel);
+                RegionValidator regionValidator = new RegionValidator();
+                ValidationResult response = regionValidator.Validate(region);
                 if (response.IsValid){
-                    bool notExists = await this.DatabaseInterfacer.AddModel(locationModel);
+                    bool notExists = await this.DatabaseInterfacer.AddModel(region);
                     if (notExists){
                         string[] noErrors = {};
                         return Ok(noErrors);

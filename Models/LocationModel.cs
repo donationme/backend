@@ -11,10 +11,10 @@ namespace SADJZ.Models{
     using static JWT.Controllers.TokenController;
 
 
-    public sealed class LocationModel:DatabaseEntry{
+    public sealed class RegionModel:DatabaseEntry{
 
         [JsonProperty("locations")]
-        public List<LocationCollectionObject> Locations { get; set; }
+        public List<LocationModel> Locations { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -27,7 +27,7 @@ namespace SADJZ.Models{
     }
 
 
-    public sealed class ExportCSVLocationModel{
+    public sealed class ExportCSVRegionModel{
 
         [JsonProperty("csv")]
         public string CSV { get; set; }
@@ -35,11 +35,11 @@ namespace SADJZ.Models{
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        public LocationModel Location { get{return new LocationModel{Locations = LocationReader.ReadCSV(this.CSV), Name = this.Name };}}
+        public RegionModel Location { get{return new RegionModel{Locations = RegionReader.ReadCSV(this.CSV), Name = this.Name };}}
 
     }
 
-    public sealed class LocationCollectionObject:DatabaseEntry
+    public sealed class LocationModel:DatabaseEntry
     {
 
         [JsonProperty("key")]
@@ -85,10 +85,10 @@ namespace SADJZ.Models{
         [JsonProperty("items")]
         public List<DonationItemModel> DonationItems { get; set; }
 
-        public static LocationCollectionObject FromCsv(string csvLine)
+        public static LocationModel FromCsv(string csvLine)
         {
             string[] values = csvLine.Split(',');
-            LocationCollectionObject location = new LocationCollectionObject();
+            LocationModel location = new LocationModel();
             location.Key = Convert.ToInt16(values[0]);
             location.Name = Convert.ToString(values[1]);
             location.Id = Hasher.SHA256(location.Name);
