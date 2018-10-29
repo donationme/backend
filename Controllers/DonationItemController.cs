@@ -20,32 +20,33 @@ namespace SADJZ.Controllers
 
     public class DonationItemController : ControllerBase
     {
-        private DatabaseInterfacer<LocationModel> DatabaseInterfacer;
+        private DatabaseInterfacer<RegionModel> DatabaseInterfacer;
 
-        private DonationItemValidator DonationCenterValidator = new DonationItemValidator();
+        private DonationItemValidator DonationItemValidator = new DonationItemValidator();
 
         public DonationItemController()
         {
-            this.DatabaseInterfacer = new DatabaseInterfacer<LocationModel>(DatabaseEndpoints.location);
+            this.DatabaseInterfacer = new DatabaseInterfacer<RegionModel>(DatabaseEndpoints.region);
 
         }
 
-        [HttpPost("add/{locationName}/{donationCenterName}"), Authorize]
-        public async Task<ActionResult<UserModel>> AddDonationItemForLocation(string locationName, string donationCenterName, DonationItemModel donationItem)
+        [HttpPost("add/{regionName}/{locationid}"), Authorize]
+        public async Task<ActionResult<UserModel>> AddDonationItemForLocation(string regionName, string locationid, DonationItemModel donationItem)
         {
 
-            string id = Hasher.SHA256(locationName.ToLower());
-            LocationModel location = await this.DatabaseInterfacer.GetModel(id);
+            string regionId = Hasher.SHA256(regionName.ToLower());
+            RegionModel region = await this.DatabaseInterfacer.GetModel(regionId);
 
-            ValidationResult response = DonationCenterValidator.Validate(donationItem);
+            ValidationResult response = DonationItemValidator.Validate(donationItem);
 
             if (response.IsValid)
             {
-                donationItem.TimeDonated = DateTime.Now;
-                donationItem.Id = Hasher.SHA256(donationItem.Title + donationItem.TimeDonated.ToString());
-                location.DonationCenters.Where(c => c.Name == donationCenterName).First().DonationItems.Add(donationItem);
-                LocationReader locationReader = new LocationReader();
-                if (this.DatabaseInterfacer.UpdateModel<List<DonationCenterModel>>(id, c => c.DonationCenters, location.DonationCenters))
+                donationItem.LocationId = locationid;
+                donationItem.Time = DateTime.Now;
+                donationItem.Id = Hasher.SHA256(donationItem.Name + donationItem.Time.ToString());
+                region.Locations.Where(c => c.Id == locationid).First().DonationItems.Add(donationItem);
+                RegionReader locationReader = new RegionReader();
+                if (this.DatabaseInterfacer.UpdateModel<List<LocationModel>>(regionId, c => c.Locations, region.Locations))
                 {
                     string[] noErrors = { };
                     return Ok(noErrors);
@@ -63,18 +64,18 @@ namespace SADJZ.Controllers
             }
 
         }
-        [HttpPost("remove/{locationName}/{donationCenterName}/{donationItemId}"), Authorize]
-        public async Task<ActionResult<UserModel>> RemoveDonationItemForLocation(string locationName, string donationCenterName, string donationItemId)
+        [HttpGet("remove/{regionName}/{locationid}/{donationItemId}"), Authorize]
+        public async Task<ActionResult<UserModel>> RemoveDonationItemForLocation(string regionName, string locationid, string donationItemId)
         {
             try{
 
             
-            string id = Hasher.SHA256(locationName.ToLower());
-            LocationModel location = await this.DatabaseInterfacer.GetModel(id);
-            DonationCenterModel donationCenter = location.DonationCenters.Where(c => c.Name == donationCenterName).First();
-            donationCenter.DonationItems.Remove(donationCenter.DonationItems.Where(d => d.Id == donationItemId).First());
+            string id = Hasher.SHA256(regionName.ToLower());
+            RegionModel region = await this.DatabaseInterfacer.GetModel(id);
+            LocationModel location = region.Locations.Where(c => c.Id == locationid).First();
+            location.DonationItems.Remove(location.DonationItems.Where(d => d.Id == donationItemId).First());
 
-                if (this.DatabaseInterfacer.UpdateModel<List<DonationCenterModel>>(id, c => c.DonationCenters, location.DonationCenters))
+                if (this.DatabaseInterfacer.UpdateModel<List<LocationModel>>(id, c => c.Locations, region.Locations))
                 {
                     string[] noErrors = { };
                     return Ok(noErrors);
@@ -93,23 +94,26 @@ namespace SADJZ.Controllers
 
 
 
-        [HttpPost("edit/{locationName}/{donationCenterName}/{donationItemId}"), Authorize]
-        public async Task<ActionResult<UserModel>> EditDonationItemForLocation(string locationName, string donationCenterName,  string donationItemId, DonationItemModel donationItem)
+        [HttpPost("edit/{regionName}/{locationid}/{donationItemId}"), Authorize]
+        public async Task<ActionResult<UserModel>> EditDonationItemForLocation(string regionName, string locationid,  string donationItemId, DonationItemModel donationItem)
         {
 
-            ValidationResult response = DonationCenterValidator.Validate(donationItem);
+            ValidationResult response = DonationItemValidator.Validate(donationItem);
 
             if (response.IsValid)
             {
-                var donationCenterValidator = new DonationItemValidator();
-                string id = Hasher.SHA256(locationName.ToLower());
-                LocationModel location = await this.DatabaseInterfacer.GetModel(id);
-                DonationCenterModel donationCenter = location.DonationCenters.Where(c => c.Name == donationCenterName).First();
-                donationCenter.DonationItems.Remove(donationCenter.DonationItems.Where(d => d.Id == donationItemId).First());
-                donationItem.Id = donationItemId;
-                donationCenter.DonationItems.Add(donationItem);
 
-                if (this.DatabaseInterfacer.UpdateModel<List<DonationCenterModel>>(id, c => c.DonationCenters, location.DonationCenters))
+
+                string id = Hasher.SHA256(regionName.ToLower());
+                RegionModel region = await this.DatabaseInterfacer.GetModel(id);
+                LocationModel location = region.Locations.Where(c => c.Id == locationid).First();
+                location.DonationItems.Remove(location.DonationItems.Where(d => d.Id == donationItemId).First());
+                donationItem.Id = donationItemId;
+                donationItem.LocationId = locationid;
+
+                location.DonationItems.Add(donationItem);
+
+                if (this.DatabaseInterfacer.UpdateModel<List<LocationModel>>(id, c => c.Locations, region.Locations))
                 {
                     string[] noErrors = { };
                     return Ok(noErrors);

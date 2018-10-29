@@ -11,10 +11,10 @@ namespace SADJZ.Models{
     using static JWT.Controllers.TokenController;
 
 
-    public sealed class LocationModel:DatabaseEntry{
+    public sealed class RegionModel:DatabaseEntry{
 
-        [JsonProperty("donationCenters")]
-        public List<DonationCenterModel> DonationCenters { get; set; }
+        [JsonProperty("locations")]
+        public List<LocationModel> Locations { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -27,7 +27,7 @@ namespace SADJZ.Models{
     }
 
 
-    public sealed class ExportCSVLocationModel{
+    public sealed class ExportCSVRegionModel{
 
         [JsonProperty("csv")]
         public string CSV { get; set; }
@@ -35,11 +35,11 @@ namespace SADJZ.Models{
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        public LocationModel Location { get{return new LocationModel{DonationCenters = LocationReader.ReadCSV(this.CSV), Name = this.Name };}}
+        public RegionModel Location { get{return new RegionModel{Locations = RegionReader.ReadCSV(this.CSV), Name = this.Name };}}
 
     }
 
-    public sealed class DonationCenterModel
+    public sealed class LocationModel:DatabaseEntry
     {
 
         [JsonProperty("key")]
@@ -75,19 +75,23 @@ namespace SADJZ.Models{
         [JsonProperty("phone")]
         public string Phone { get; set; }
 
-
         [JsonProperty("website")]
         public string Website { get; set; }
 
-        [JsonProperty("donationCenters")]
+
+        [JsonProperty("id")]
+        public override string Id { get; set; }
+
+        [JsonProperty("items")]
         public List<DonationItemModel> DonationItems { get; set; }
 
-        public static DonationCenterModel FromCsv(string csvLine)
+        public static LocationModel FromCsv(string csvLine)
         {
             string[] values = csvLine.Split(',');
-            DonationCenterModel location = new DonationCenterModel();
+            LocationModel location = new LocationModel();
             location.Key = Convert.ToInt16(values[0]);
             location.Name = Convert.ToString(values[1]);
+            location.Id = Hasher.SHA256(location.Name);
             location.Latitude = Convert.ToDouble(values[2]);
             location.Longitude = Convert.ToDouble(values[3]);
             location.Street = Convert.ToString(values[4]);

@@ -93,6 +93,98 @@
 			"response": []
 		},
 		{
+			"name": "Search Dontaions by Name",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBZnNoYXduIiwiVXNlcm5hbWUiOiJhZnNoYXduMUBnLmNvbSIsIlR5cGUiOiJBZG1pbiIsImVtYWlsIjoiYWZzaGF3bjFAZy5jb20iLCJqdGkiOiI0Yjg1MDJjMC01MjA1LTQwZmMtYWEyZC05ZDJiZGEzZDJhMGMiLCJleHAiOjE1NDA4MjU0ODgsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NjM5MzkvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo2MzkzOS8ifQ.XU_qQkDSElbCYlf-yXb520Xp-9TSEtW7VLQ1utuUdw8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://143.215.82.151:5000/api/search/name/atlanta/b",
+					"protocol": "http",
+					"host": [
+						"143",
+						"215",
+						"82",
+						"151"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"search",
+						"name",
+						"atlanta",
+						"b"
+					]
+				},
+				"description": "Adds User to database"
+			},
+			"response": []
+		},
+		{
+			"name": "Search Donations by Category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBZnNoYXduIiwiVXNlcm5hbWUiOiJhZnNoYXduMUBnLmNvbSIsIlR5cGUiOiJBZG1pbiIsImVtYWlsIjoiYWZzaGF3bjFAZy5jb20iLCJqdGkiOiIwNDMyYTkyOC02MzExLTRiOWUtYjc2Yi03NTFiMzcwMWRlYjAiLCJleHAiOjE1NDA4Mjg4MTcsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NjM5MzkvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo2MzkzOS8ifQ.2Sb4cSNjQ8lzgHZN6FF3CYQm9LC1UC5p2idP0_ZITok",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://143.215.82.151:5000/api/search/category/atlanta/6",
+					"protocol": "http",
+					"host": [
+						"143",
+						"215",
+						"82",
+						"151"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"search",
+						"category",
+						"atlanta",
+						"6"
+					]
+				},
+				"description": "Adds User to database"
+			},
+			"response": []
+		},
+		{
 			"name": "Post Locations",
 			"request": {
 				"auth": {

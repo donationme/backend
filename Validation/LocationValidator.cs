@@ -2,15 +2,15 @@ using FluentValidation;
 using SADJZ.Models;
 using System.Linq;
 namespace SADJZ.Validation{
-  public class LocationValidator : AbstractValidator<LocationModel> {
-    public LocationValidator() {
+  public class RegionValidator : AbstractValidator<RegionModel> {
+    public RegionValidator() {
       RuleFor(x => x.Name).NotEmpty().WithMessage("Please provide region name");
-      RuleFor(x => x.DonationCenters).NotEmpty().WithMessage("Please provide location information");
-      RuleForEach(x => x.DonationCenters).SetValidator(new DonationCenterValidator());
+      RuleFor(x => x.Locations).NotEmpty().WithMessage("Please provide location information");
+      RuleForEach(x => x.Locations).SetValidator(new DonationCenterValidator());
     }
   }
 
-  public class DonationCenterValidator : AbstractValidator<DonationCenterModel> {
+  public class DonationCenterValidator : AbstractValidator<LocationModel> {
     public DonationCenterValidator() {
       RuleFor(x => x.Key).NotEmpty().WithMessage("Please provide Key");
       RuleFor(x => x.Latitude).NotEmpty().WithMessage("Please provide Latitude");

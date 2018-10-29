@@ -35,7 +35,8 @@ namespace SADJZ
           {
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidateLifetime = true,
+            //TODO Add this later
+            // ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ValidIssuer = Configuration["Jwt:Issuer"],
             ValidAudience = Configuration["Jwt:Issuer"],

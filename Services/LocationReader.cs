@@ -6,16 +6,16 @@ using SADJZ.Models;
 
 namespace SADJZ.Services{
 
-    public class LocationReader
+    public class RegionReader
 
     {
 
-        public  static List<DonationCenterModel> ReadCSV(string csv){
+        public  static List<LocationModel> ReadCSV(string csv){
             string[] splitted = csv.Split(new string[] {System.Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
 
-            List<DonationCenterModel> values = splitted
+            List<LocationModel> values = splitted
                                            .Skip(1)
-                                           .Select(v => DonationCenterModel.FromCsv(v))
+                                           .Select(v => LocationModel.FromCsv(v))
                                            .ToList();
             return values;
         }
