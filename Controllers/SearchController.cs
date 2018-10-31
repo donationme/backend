@@ -29,8 +29,8 @@ namespace SADJZ.Controllers
 
         }
 
-        [HttpGet("name/{regionName}/{query}"), Authorize]
-        public async Task<ActionResult<SearchModel<DonationItemModel>>> SearchRegionDonationsByName(string regionName, string query)
+        [HttpGet("all/name/{regionName}/{query}"), Authorize]
+        public async Task<ActionResult<SearchModel<DonationItemModel>>> SearchAllRegionDonationsByName(string regionName, string query)
         {
             if (query != null){
                 string regionId = Hasher.SHA256(regionName.ToLower());
@@ -55,8 +55,8 @@ namespace SADJZ.Controllers
         }
 
 
-        [HttpGet("category/{regionName}/{query}"), Authorize]
-        public async Task<ActionResult<SearchModel<DonationItemModel>>> SearchRegionDonationsByCategory(string regionName, ItemCategory query)
+        [HttpGet("all/category/{regionName}/{query}"), Authorize]
+        public async Task<ActionResult<SearchModel<DonationItemModel>>> SearchAllRegionDonationsByCategory(string regionName, ItemCategory query)
         {
                 string regionId = Hasher.SHA256(regionName.ToLower());
                 RegionModel region = await this.DatabaseInterfacer.GetModel(regionId);
@@ -74,6 +74,34 @@ namespace SADJZ.Controllers
                 return new SearchModel<DonationItemModel>(){Results = searchedLocationsList.ToArray()};
         }
        
+        [HttpGet("specific/name/{regionName}/{locationid}/{query}"), Authorize]
+        public async Task<ActionResult<SearchModel<DonationItemModel>>> SearchSpecificRegionDonationsByName(string regionName, string locationid, string query)
+        {
+            if (query != null){
+                string regionId = Hasher.SHA256(regionName.ToLower());
+                RegionModel region = await this.DatabaseInterfacer.GetModel(regionId);
+                
+                DonationItemModel[] donationItems = region.Locations.Where(c => c.Id == locationid).First().DonationItems.Where(d => d.Name.ToLower().Contains(query.ToLower())).ToArray();
+
+                return new SearchModel<DonationItemModel>(){Results = donationItems.ToArray()};
+
+            }else{
+                return Conflict();
+            }
+
+        }
+
+
+        [HttpGet("specific/category/{regionName}/{locationid}/{query}"), Authorize]
+        public async Task<ActionResult<SearchModel<DonationItemModel>>> SearchSpecificRegionDonationsByCategory(string regionName, string locationid, ItemCategory query)
+        {
+                string regionId = Hasher.SHA256(regionName.ToLower());
+                RegionModel region = await this.DatabaseInterfacer.GetModel(regionId);
+                
+                DonationItemModel[] donationItems = region.Locations.Where(c => c.Id == locationid).First().DonationItems.Where(d => d.Category == query).ToArray();
+
+                return new SearchModel<DonationItemModel>(){Results = donationItems.ToArray()};
+        }
 
     }
 }
