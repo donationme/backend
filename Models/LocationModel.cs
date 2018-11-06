@@ -2,7 +2,7 @@ namespace SADJZ.Models{
 
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using MongoDB.Bson;
     using Newtonsoft.Json;
@@ -12,14 +12,14 @@ namespace SADJZ.Models{
 
 
     public sealed class RegionModel:DatabaseEntry{
-
-        [JsonProperty("locations")]
+        [Required]
         public List<LocationModel> Locations { get; set; }
 
-        [JsonProperty("name")]
+        public Coords RegionCoords {get; set;}
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string Name { get; set; }
-
-        [JsonProperty("id")]
         public override string Id { get; set; }
 
 
@@ -27,62 +27,71 @@ namespace SADJZ.Models{
     }
 
 
+    public sealed class Coords{
+        [Required]
+        public double Latitude { get; set; }
+        [Required]
+        public double Longitude { get; set; }
+    }
+
     public sealed class ExportCSVRegionModel{
-
-        [JsonProperty("csv")]
+        [Required]
         public string CSV { get; set; }
-
-        [JsonProperty("name")]
+        [Required]
+        public Coords RegionCoords {get; set;}
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string Name { get; set; }
-
-        public RegionModel Location { get{return new RegionModel{Locations = RegionReader.ReadCSV(this.CSV), Name = this.Name };}}
+        [Required]
+        public RegionModel Region { get{return new RegionModel{Locations = RegionReader.ReadCSV(this.CSV), Name = this.Name, RegionCoords = this.RegionCoords };}}
 
     }
 
     public sealed class LocationModel:DatabaseEntry
     {
-
-        [JsonProperty("key")]
+        [Required]
         public int Key { get; set; }
-
-        [JsonProperty("name")]
+        [Required]
+        [MinLength(1)]
+        [MaxLength(200)]        
         public string Name { get; set; }
-
-        [JsonProperty("latitude")]
-        public double Latitude { get; set; }
-
-        [JsonProperty("longitude")]
-        public double Longitude { get; set; }
-
-        [JsonProperty("street")]
+        [Required]
+        public Coords Coords { get; set; }
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string Street { get; set; }
-
-        [JsonProperty("city")]
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string City { get; set; }
-
-        [JsonProperty("state")]
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string State { get; set; }
-
-        [JsonProperty("zip")]
+        [Required]
         public int Zip { get; set; }
-
-        [JsonProperty("address")]
+        [Required]
+        [MinLength(1)]
+        [MaxLength(100)]
         public string Address {get;set;}
-
-        [JsonProperty("type")]
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string Type { get; set; }
-
-        [JsonProperty("phone")]
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string Phone { get; set; }
-
-        [JsonProperty("website")]
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string Website { get; set; }
 
-
-        [JsonProperty("id")]
         public override string Id { get; set; }
+        [Required]
 
-        [JsonProperty("items")]
         public List<DonationItemModel> DonationItems { get; set; }
 
         public static LocationModel FromCsv(string csvLine)
@@ -92,8 +101,7 @@ namespace SADJZ.Models{
             location.Key = Convert.ToInt16(values[0]);
             location.Name = Convert.ToString(values[1]);
             location.Id = Hasher.SHA256(location.Name);
-            location.Latitude = Convert.ToDouble(values[2]);
-            location.Longitude = Convert.ToDouble(values[3]);
+            location.Coords = new Coords{Latitude = Convert.ToDouble(values[2]), Longitude = Convert.ToDouble(values[3])};
             location.Street = Convert.ToString(values[4]);
             location.City = Convert.ToString(values[5]);
             location.State = Convert.ToString(values[6]);

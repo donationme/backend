@@ -7,7 +7,6 @@ using SADJZ.Models;
 using SADJZ.Services;
 using SADJZ.Database;
 using SADJZ.Consts;
-using SADJZ.Validation;
 using FluentValidation.Results;
 using System.Security.Claims;
 using System.Linq;

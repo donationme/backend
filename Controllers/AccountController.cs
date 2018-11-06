@@ -10,7 +10,6 @@ using SADJZ.Consts;
 using SADJZ.Database;
 using SADJZ.Models;
 using SADJZ.Services;
-using SADJZ.Validation;
 
 namespace SADJZ.Controllers
 {
@@ -21,11 +20,9 @@ namespace SADJZ.Controllers
     {
         private bool privligedMode = false;
         private DatabaseInterfacer<AccountModel> DatabaseInterfacer;
-        private AccountValidator AccountValidator;
 
         public AccountController()
         {
-            this.AccountValidator = new AccountValidator();
             this.DatabaseInterfacer = new DatabaseInterfacer<AccountModel>(DatabaseEndpoints.account);
         }
 
@@ -66,11 +63,9 @@ namespace SADJZ.Controllers
         public async Task<IActionResult> CreateAccount(AccountModel model, bool isAdmin)
         {
 
-            ValidationResult response = AccountValidator.Validate(model);
 
 
-            if (response.IsValid)
-            {
+
                 if ((model.User.Type == UserType.User || privligedMode == false) || isAdmin)
                 {
                     model.Id = Hasher.SHA256(model.Auth.Username);
@@ -82,20 +77,19 @@ namespace SADJZ.Controllers
                     }
                     else
                     {
-                        ValidationFailure[] validationFailure = { new ValidationFailure("duplicateUserError", "The user already exists") };
-                        return Conflict(validationFailure);
+                        var resp = Content("{" + '"' + "DuplicateUser" + '"' + ":[" +'"' + "The user already exists" + '"' + "]}");
+                        resp.StatusCode = 400;
+                        return resp;
                     }
                 }
                 else
-                {
-                    ValidationFailure[] validationFailure = { new ValidationFailure("privledgeError", "You are not privledged to make this account type") };
-                    return Conflict(validationFailure);
+                {            
+                    var resp = Content("{" + '"' + "PrivledgeError" + '"' + ":[" +'"' + "You are not privledged to make this account type" + '"' + "]}");
+                    resp.StatusCode = 400;
+                    return resp;
                 }
-            }
-            else
-            {
-                return Conflict(response.Errors.ToArray());
-            }
+            
+           
 
 
 

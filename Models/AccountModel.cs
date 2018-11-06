@@ -1,5 +1,5 @@
 namespace SADJZ.Models{
-
+    using System.ComponentModel.DataAnnotations;
     using System;
     using System.Collections.Generic;
 
@@ -13,14 +13,10 @@ namespace SADJZ.Models{
     public sealed class AccountModel:DatabaseEntry
     {
 
-
-        [JsonProperty("auth")]
+        [Required]
         public LoginModel Auth { get; set; }
-
-        [JsonProperty("user")]
+        [Required]
         public UserModel User { get; set; }
-
-        [JsonProperty("_id")]
         public override string Id { get; set; }
 
     }

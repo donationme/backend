@@ -1,9 +1,15 @@
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
 public class LoginModel
     {
-        [JsonProperty("username")]
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string Username { get; set; }
-        [JsonProperty("password")]
+
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string Password { get; set; }
     }

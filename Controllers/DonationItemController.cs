@@ -7,7 +7,6 @@ using SADJZ.Models;
 using SADJZ.Services;
 using SADJZ.Database;
 using SADJZ.Consts;
-using SADJZ.Validation;
 using FluentValidation.Results;
 using System.Security.Claims;
 using System.Linq;
@@ -22,7 +21,6 @@ namespace SADJZ.Controllers
     {
         private DatabaseInterfacer<RegionModel> DatabaseInterfacer;
 
-        private DonationItemValidator DonationItemValidator = new DonationItemValidator();
 
         public DonationItemController()
         {
@@ -37,10 +35,8 @@ namespace SADJZ.Controllers
             string regionId = Hasher.SHA256(regionName.ToLower());
             RegionModel region = await this.DatabaseInterfacer.GetModel(regionId);
 
-            ValidationResult response = DonationItemValidator.Validate(donationItem);
 
-            if (response.IsValid)
-            {
+
                 donationItem.LocationId = locationid;
                 donationItem.Time = DateTime.Now;
                 donationItem.Id = Hasher.SHA256(donationItem.Name + donationItem.Time.ToString());
@@ -57,13 +53,10 @@ namespace SADJZ.Controllers
                     return Conflict(validationFailure);
                 }
 
-            }
-            else
-            {
-                return Conflict(response.Errors);
-            }
-
         }
+
+
+        
         [HttpGet("remove/{regionName}/{locationid}/{donationItemId}"), Authorize]
         public async Task<ActionResult<UserModel>> RemoveDonationItemForLocation(string regionName, string locationid, string donationItemId)
         {
@@ -98,12 +91,6 @@ namespace SADJZ.Controllers
         public async Task<ActionResult<UserModel>> EditDonationItemForLocation(string regionName, string locationid,  string donationItemId, DonationItemModel donationItem)
         {
 
-            ValidationResult response = DonationItemValidator.Validate(donationItem);
-
-            if (response.IsValid)
-            {
-
-
                 string id = Hasher.SHA256(regionName.ToLower());
                 RegionModel region = await this.DatabaseInterfacer.GetModel(id);
                 LocationModel location = region.Locations.Where(c => c.Id == locationid).First();
@@ -123,13 +110,6 @@ namespace SADJZ.Controllers
                     ValidationFailure[] validationFailure = { new ValidationFailure("databaseStorageError", "Failed to update location") };
                     return Conflict(validationFailure);
                 }
-
-
-            }
-            else
-            {
-                return Conflict(response.Errors);
-            }
 
 
 

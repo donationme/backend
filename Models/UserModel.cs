@@ -3,6 +3,7 @@ namespace SADJZ.Models{
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using MongoDB.Bson;
     using Newtonsoft.Json;
@@ -10,12 +11,17 @@ namespace SADJZ.Models{
 
     public sealed class UserModel
     {
-        [JsonProperty("name")]
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string Name { get; set; }
-
-        [JsonProperty("email")]
+        [Required]
+        [EmailAddress]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string Email { get; set; }
 
+        [Required]
         [JsonConverter(typeof(StringEnumConverter))]
         public UserType Type { get; set; }
 

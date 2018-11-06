@@ -3,6 +3,7 @@ namespace SADJZ.Models{
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using MongoDB.Bson;
     using Newtonsoft.Json;
@@ -10,25 +11,22 @@ namespace SADJZ.Models{
 
     public sealed class DonationItemModel: DatabaseEntry
     {
-
-        [JsonProperty("locationid")]
         public string LocationId { get; set; }
-
-        [JsonProperty("id")]
         public override string Id { get; set; }
-
-        [JsonProperty("time")]
+        [Required]
         public DateTime Time { get; set; }
-
-        [JsonProperty("description")]
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string Description { get; set; }
 
-
-        [JsonProperty("name")]
+        [Required]
+        [MinLength(1)]
+        [MaxLength(36)]
         public string Name { get; set; }
 
-
-        [JsonProperty("quantity")]
+        [Required]
+        [Range(1,100)]
         public long Quantity { get; set; }
 
 

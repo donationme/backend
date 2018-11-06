@@ -7,7 +7,6 @@ using SADJZ.Models;
 using SADJZ.Services;
 using SADJZ.Database;
 using SADJZ.Consts;
-using SADJZ.Validation;
 using FluentValidation.Results;
 using System.Security.Claims;
 using System;
@@ -17,12 +16,12 @@ namespace SADJZ.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    public class LocationController : ControllerBase
+    public class RegionController : ControllerBase
     {
         private DatabaseInterfacer<RegionModel> DatabaseInterfacer;
 
 
-        public LocationController()
+        public RegionController()
         {
             this.DatabaseInterfacer = new DatabaseInterfacer<RegionModel>(DatabaseEndpoints.region);
 
@@ -40,16 +39,13 @@ namespace SADJZ.Controllers
         [HttpPost("{regionName}"), Authorize]
         public async Task<ActionResult<bool>> AddDonationCenter(string regionName, LocationModel location)
         {
-            var donationCenterValidator = new DonationCenterValidator();
             string regionId = Hasher.SHA256(regionName.ToLower());
             RegionModel regionModel = await this.DatabaseInterfacer.GetModel(regionId);
 
-            ValidationResult validationResp = donationCenterValidator.Validate(location);
 
             regionModel.Id =  Hasher.SHA256(regionModel.Name.ToLower());
 
 
-            if (validationResp.IsValid){
                 if (regionModel == null){
                     List<LocationModel> locations = new List<LocationModel>();
                     locations.Add(location);
@@ -59,8 +55,9 @@ namespace SADJZ.Controllers
                         string[] noErrors = {};
                         return Ok(noErrors);
                     }else{
-                        ValidationFailure[] validationFailure = { new ValidationFailure("databaseStorageError", "Failed to add location") };
-                        return Conflict(validationFailure);
+                        var resp = Content("{" + '"' + "DatabaseStorageError" + '"' + ":[" +'"' + "Failed to add location" + '"' + "]}");
+                        resp.StatusCode = 400;
+                        return resp;
                     }
                 }else{
                     regionModel.Locations.Add(location);
@@ -69,17 +66,12 @@ namespace SADJZ.Controllers
                         string[] noErrors = {};
                         return Ok(noErrors);
                     }else{
-                        ValidationFailure[] validationFailure = { new ValidationFailure("databaseStorageError", "Failed to update location") };
-                        return Conflict(validationFailure);
+                        var resp = Content("{" + '"' + "DatabaseStorageError" + '"' + ":[" +'"' + "Failed to add location" + '"' + "]}");
+                        resp.StatusCode = 400;
+                        return resp;
                     }
-
-                }
-            }else{
-                return Conflict(validationResp.Errors);
-            }
-                
             
-
+                }
 
         }
 
@@ -88,7 +80,7 @@ namespace SADJZ.Controllers
 
 
         [HttpPost, Authorize]
-        public async Task<ActionResult<UserModel>> AddLocationFromCSV(ExportCSVRegionModel csvModel)
+        public async Task<ActionResult<UserModel>> AddRegionFromCSV(ExportCSVRegionModel csvModel)
         {
 
             ClaimsPrincipal currentUser = HttpContext.User;
@@ -97,24 +89,20 @@ namespace SADJZ.Controllers
 
             if (userType == UserType.Admin){
 
-                RegionModel region = csvModel.Location;
+                RegionModel region = csvModel.Region;
                 region.Id =  Hasher.SHA256(csvModel.Name.ToLower());
 
-                RegionValidator regionValidator = new RegionValidator();
-                ValidationResult response = regionValidator.Validate(region);
-                if (response.IsValid){
                     bool notExists = await this.DatabaseInterfacer.AddModel(region);
                     if (notExists){
                         string[] noErrors = {};
                         return Ok(noErrors);
 
                     }else{
-                        ValidationFailure[] validationFailure = { new ValidationFailure("duplicateLocationError", "The location already exists") };
-                        return Conflict(validationFailure);
+                        var resp = Content("{" + '"' + "Location" + '"' + ":[" +'"' + "The region already exists" + '"' + "]}");
+                        resp.StatusCode = 400;
+                        return resp;
                     }
-                }else{
-                    return Conflict(response);
-                }
+                
             }else{
                 return Unauthorized();
             }
