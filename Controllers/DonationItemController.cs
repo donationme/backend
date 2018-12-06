@@ -44,8 +44,8 @@ namespace SADJZ.Controllers
                 RegionReader locationReader = new RegionReader();
                 if (this.DatabaseInterfacer.UpdateModel<List<LocationModel>>(regionId, c => c.Locations, region.Locations))
                 {
-                    string[] noErrors = { };
-                    return Ok(noErrors);
+                    string[] idArr = {donationItem.Id};
+                    return Ok(new {id = idArr});
                 }
                 else
                 {
@@ -70,8 +70,8 @@ namespace SADJZ.Controllers
 
                 if (this.DatabaseInterfacer.UpdateModel<List<LocationModel>>(id, c => c.Locations, region.Locations))
                 {
-                    string[] noErrors = { };
-                    return Ok(noErrors);
+                    string[] idArr = {id};
+                    return Ok(new {id = idArr});
                 }
                 else
                 {
@@ -102,8 +102,8 @@ namespace SADJZ.Controllers
 
                 if (this.DatabaseInterfacer.UpdateModel<List<LocationModel>>(id, c => c.Locations, region.Locations))
                 {
-                    string[] noErrors = { };
-                    return Ok(noErrors);
+                    string[] idArr = {id};
+                    return Ok(new {id = idArr});
                 }
                 else
                 {

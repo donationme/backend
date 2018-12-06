@@ -49,7 +49,7 @@ namespace JWT.Controllers
     var claims = new[] {
         new Claim(JwtRegisteredClaimNames.Sub, account.User.Name),
         new Claim("Username", account.Auth.Username),
-        new Claim("Type", account.User.Type.ToString()),
+        new Claim("Type", account.User.UserType.ToString()),
 
         new Claim(JwtRegisteredClaimNames.Email, account.User.Email),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

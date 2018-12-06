@@ -23,7 +23,7 @@ namespace SADJZ.Models{
 
         [Required]
         [JsonConverter(typeof(StringEnumConverter))]
-        public UserType Type { get; set; }
+        public UserType UserType { get; set; }
 
 
     }

@@ -79,7 +79,7 @@ namespace SADJZ.Models{
         [Required]
         [MinLength(1)]
         [MaxLength(36)]
-        public string Type { get; set; }
+        public string LocationType { get; set; }
         [Required]
         [MinLength(1)]
         [MaxLength(36)]
@@ -106,7 +106,7 @@ namespace SADJZ.Models{
             location.City = Convert.ToString(values[5]);
             location.State = Convert.ToString(values[6]);
             location.Zip = Convert.ToInt16(values[7]);
-            location.Type = Convert.ToString(values[8]);
+            location.LocationType = Convert.ToString(values[8]);
             location.Phone = Convert.ToString(values[9]);
             location.Website = Convert.ToString(values[10]);
             location.Address = location.Street + ", " + location.City + ", " + location.State + " " + location.Zip;

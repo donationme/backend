@@ -66,14 +66,14 @@ namespace SADJZ.Controllers
 
 
 
-                if ((model.User.Type == UserType.User || privligedMode == false) || isAdmin)
+                if ((model.User.UserType == UserType.User || privligedMode == false) || isAdmin)
                 {
                     model.Id = Hasher.SHA256(model.Auth.Username);
                     bool addSuccess = await this.DatabaseInterfacer.AddModel(model);
                     if (addSuccess)
                     {   
-                        string[] noErrors = {};
-                        return Ok(noErrors);
+                        string[] idArr = {model.Id };
+                        return Ok(new {id = idArr});
                     }
                     else
                     {

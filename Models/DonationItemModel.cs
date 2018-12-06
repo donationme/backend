@@ -29,8 +29,6 @@ namespace SADJZ.Models{
         [Range(1,100)]
         public long Quantity { get; set; }
 
-
-        [JsonConverter(typeof(StringEnumConverter))]
         public ItemCategory Category { get; set; }
 
 
