@@ -42,4 +42,6 @@ In the endpoints change ```localhost``` to whatever your local ip address is.
 2. Add Privlidged User (Admin,Location Employee, Manager) with admin level access
 3. Get User
 4. Get JWT token to authenticate with
+5. Add, Edit, and Delete Items
+6. Import Donation Centers with CSV files
 
