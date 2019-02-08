@@ -1,4 +1,4 @@
-# SADJZ Backend
+# DonationMe Backend
 
 
 ## Setup
